@@ -58,16 +58,6 @@ def logout():
     else:
         return redirect('/login')
 
-      
-@app.route('/api/qrEvent', methods=['GET','POST'])
-def eventScanned():
-    eventId = request.args.get('eventId', None)
-    personId = request.args.get('personId', None)
-    if eventApi.isScanned(eventId, personId):
-        return jsonify(False)
-    else:
-        return eventApi.eventScanned(eventId,personId)
-
 @app.route('/reset-password', methods=['POST'])
 def resetPassword():
 	if(request.method == "POST"):
