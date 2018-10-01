@@ -168,13 +168,13 @@ def createNews(emtpy):
 # mentor
 ################################################################
 
-@app.route('api/addProfilePhoto', methods=['POST'])
+@app.route('/api/addProfilePhoto', methods=['POST'])
 def addProfilePhoto():
     data = request.get_json()
     return UserApi.addProfilePhoto(data.get('url'), data.get('id'))
 
-@app.route('api/getProfilePhoto', methods=['GET'])
-def addProfilePhoto():
+@app.route('/api/getProfilePhoto', methods=['GET'])
+def getProfilePhoto():
     data = request.get_json()
     return UserApi.getProfilePhoto(data.get('id'))
 
