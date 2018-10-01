@@ -11,8 +11,6 @@ def loginUser(form):
     dbEmail = UserApi.getEmail(emailLogin)
 
     if dbEmail is None:
-        print(" email1")
-        print(" pass1")
         return {"boolean": "false", "userId": None, "clearance": None, "msg": "Email klopt niet"}
 
     dbPassword = UserApi.getPassword(emailLogin)

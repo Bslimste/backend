@@ -21,6 +21,15 @@ def createEvent(id,name,begin,end,location,description,leader,img):
 	unHashed = ''.join(random.choice(chars) for _ in range(size))
 	qr_code = pbkdf2_sha256.hash(unHashed)
 
+	if(id or
+	   name or
+	   begin or
+	   end or
+	   location or
+	   description or
+	   leader == None):
+		return 400
+
 	event = Event(
 			id=id,
 			name=name,
@@ -35,6 +44,15 @@ def createEvent(id,name,begin,end,location,description,leader,img):
 		)
 	return Persister.persist_object(event)
 
+def subToEvent(eventId, personId):
+	if not Persister.checkParticepant(eventId, personId):
+		particepant = Particepant(
+				person_id=personId,
+				event_id=eventId,
+				event_scanned=0
+			)
+		return ({"responseCode": Persister.persist_object(particepant), "msg": "Added particepant entry."})
+	return ({"responseCode": 400, "msg": "Could not add participant entry because either some of the given data did not match or the entry already exists."})
 
 def saveMedia(url, eventName):
     return Persister.saveMedia(url, eventName)

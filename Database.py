@@ -130,7 +130,7 @@ class Persister():
         return 200
 
     # Check if QR code is already scanned
-    # If the user has not subscribed himselfs to the event and both the user and the event exists the user is automaticly subscribed to the event.
+    # If the user has not subscribed himself to the event and both the user and the event exists the user is automaticly subscribed to the event.
     def isScanned(eventId,personId):
         db = Session()
         particepant = db.query(Particepant).filter(Particepant.person_id == personId)\
@@ -138,11 +138,8 @@ class Persister():
                                            .first()
         db.close()
         if particepant == None:
-            print("Particepant not existing")
             if(db.query(Event).filter(Event.id == eventId).count()):
-                print("event exists")
                 if(db.query(Person).filter(Person.id == personId).count()):
-                    print("person exists")
                     db = Session()
                     newParticepant = Particepant(
                         person_id=personId,
@@ -160,6 +157,17 @@ class Persister():
             return 400
         return 200
 
+    # Checks whether or not a particepant entry or beloging events and persons already exists
+    def checkParticepant(eventId, personId):
+        db = Session()
+        if(db.query(Event).filter(Event.id == eventId).count()):
+                if(db.query(Person).filter(Person.id == personId).count()):
+                    if(db.query(Particepant).filter(Particepant.person_id == personId).filter(Particepant.event_id == eventId).count()):
+                        db.close()
+                        return True
+        db.close()
+        return False
+
     # Marks the particepant entry as scannend and adds a point to the user account
     def updateParticepantInfo(event_id, person_id):
         db = Session()
@@ -173,7 +181,7 @@ class Persister():
         particepant.event_scanned = True
         db.commit()
         db.close()
-        return 200
+        return "200"
 
     def checkEmailExistance(email):
         db = Session()

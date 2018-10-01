@@ -148,6 +148,12 @@ def createEvent():
                                                          data.get('leader'),
                                                          data.get('img'))})
 
+
+@app.route('/api/subToEvent', methods=['POST'])
+def subToEvent():
+    data = request.get_json()
+    return jsonify(eventApi.subToEvent(data.get("eventId"), data.get("personId")))
+
 @app.route('/api/saveMedia', methods=['POST'])
 def saveMedia():
     data = request.get_json()
