@@ -156,8 +156,8 @@ def searchEvent(searchString):
 						"points": person.points
 					}
 				participantList.append(participantInfo)
-		result.append({"id": event['id'], "name": event['name'], "begin": beginDay, "beginMonth": months[beginMonth], "beginTime": beginTime,
-					   "end": endDay, "endMonth": months[endMonth], "endTime": endTime,
+		result.append({"id": event['id'], "name": event['name'], "begin": beginDay, "beginMonth": months[beginMonth], "beginTime": beginTime, "beginFull": begin
+					   "end": endDay, "endMonth": months[endMonth], "endTime": endTime, "endFull": end,
 					   "location": event['location'], "desc": event['desc'], "leader": leader,
 					   "cancel": event['cancel'], "img": event['img'], "qrCode": event['qr_code'],
 					   "created": created, "leaderDesc": bio,"link": event['link'], "photo": photo, "subscribed": None, "participants": participantList});
