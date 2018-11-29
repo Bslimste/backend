@@ -144,7 +144,7 @@ def searchEvent(searchString):
 		endTime = end.strftime('%H:%M')
 
 		participantList = []
-		participants = Persister.getAllParticepants(event.id)
+		participants = Persister.getAllParticepants(event['id'])
 		if participants != 400:
 			for participant in participants:
 				person = Persister.getPerson(participant.person_id)
@@ -187,16 +187,20 @@ def getAllEvents():
 			bio = Persister.getDescription(event.leader)
 			createDate = event.created
 			created = createDate.strftime('%m/%d/%Y')
+			
+			leaderId = event.leader
 
 			begin = event.begin
 			beginDay = begin.strftime('%d')
 			beginMonth = begin.strftime('%b')
 			beginTime = begin.strftime('%H:%M')
+			beginFull = begin.strftime('%m/%d/%Y %H:%M')
 
 			end = event.end
 			endDay = end.strftime('%d')
 			endMonth = end.strftime('%b')
 			endTime = end.strftime('%H:%M')
+			endFull = end.strftime('%m/%d/%Y %H:%M')
 
 			participantList = []
 			participants = Persister.getAllParticepants(event.id)
@@ -210,11 +214,11 @@ def getAllEvents():
 						"points": person.points
 					}
 					participantList.append(participantInfo)
-			result.append({"id": event.id, "name": event.name, "begin": beginDay, "beginMonth": months[beginMonth],
-						   "beginTime": beginTime, "end": endDay, "endMonth": months[endMonth], "endTime": endTime,
+			result.append({"id": event.id, "name": event.name, "begin": beginDay, "beginFull": begin, "beginMonth": months[beginMonth],
+						   "beginTime": beginTime, "end": endDay, "endFull": end, "endMonth": months[endMonth], "endTime": endTime,
 						   "location": event.location, "desc": event.desc, "leader": leader, "cancel": event.cancel,
 						   "img": event.img, "qrCode": event.qr_code,
-						   "created": created,"leaderDesc": bio, "link": event.link, "photo": photo, "subscribed": None,
+						   "created": created,"leaderDesc": bio, "leaderId": leaderId, "link": event.link, "photo": photo, "subscribed": None,
 						   "participants": participantList})
 	return result
 

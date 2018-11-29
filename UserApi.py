@@ -74,13 +74,16 @@ def getAllAdmins():
 
     return result
 
+def deleteNewsItem(id):
+    return Persister.remove_news(id)
 
-def createNewsItem(title, content, img):
-    if (title == '' or
+def createNewsItem(id, title, content, img):
+    if (id == '' or title == '' or
             content == '' or
             img == ''):
         return 400
     item = Content(
+        id=id,
         url=img,
         title=title,
         desc=content,
