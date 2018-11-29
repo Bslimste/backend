@@ -131,6 +131,7 @@ def searchEvent(searchString):
 		event = found[eventName]
 		leader = Persister.getLeader(event['leader'])
 		photo = Persister.getProfilePhoto(event['leader'])
+		bio = Persister.getDescription(event.leader)
 		createDate = event['created']
 		created = createDate.strftime('%m/%d/%Y')
 		begin = event['begin']
@@ -155,11 +156,11 @@ def searchEvent(searchString):
 						"points": person.points
 					}
 				participantList.append(participantInfo)
-		result.append({"id": event['id'], "name": event['name'], "begin": beginDay, "beginMonth": months[beginMonth],
-					   "end": endDay, "endMonth": months[endMonth], "endTime": endTime,
+		result.append({"id": event['id'], "name": event['name'], "begin": beginDay, "beginMonth": months[beginMonth], "beginTime": beginTime, "beginFull": begin
+					   "end": endDay, "endMonth": months[endMonth], "endTime": endTime, "endFull": end,
 					   "location": event['location'], "desc": event['desc'], "leader": leader,
 					   "cancel": event['cancel'], "img": event['img'], "qrCode": event['qr_code'],
-					   "created": created, "link": event['link'], "photo": photo, "subscribed": None, "participants": participantList});
+					   "created": created, "leaderDesc": bio,"link": event['link'], "photo": photo, "subscribed": None, "participants": participantList});
 
 	return result
 

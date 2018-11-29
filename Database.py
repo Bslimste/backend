@@ -212,7 +212,6 @@ class Persister():
                 db.commit()
         except:
             db.close()
-            print("OH NO")
             return 400
         db.close()
         return 200
@@ -760,14 +759,13 @@ class Persister():
 
     def getAllSubs(id):
         db = Session()
-
+        print(id)
         if db.query(Particepant).filter(Particepant.person_id == id).count():
             eventIds = db.query(Particepant.event_id).filter(Particepant.person_id == id).all()
             db.close()
             list = []
             for id in eventIds:
                 list.append(id[0])
-            print("nieuwe ids zijn", list)
             return list
         else:
             db.close()

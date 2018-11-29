@@ -124,7 +124,7 @@ def loginPageHandler():
 # check if user is loggedin using current_user from flask.
 @app.route('/api/loginCheck', methods=['POST'])
 def loginCheck():
-    return LoginForm.loginCheck(request.get_json())
+    return jsonify("auth": {LoginForm.loginCheck(request.get_json())})
 
 
 @app.route('/logout', methods=['POST'])
@@ -418,14 +418,14 @@ def searchNews():
 @app.route('/api/addProfilePhoto', methods=['POST'])
 def addProfilePhoto():
     data = request.get_json()
-    return UserApi.addProfilePhoto(data.get('url'), data.get('id'))
+    return jsonify({"responseCode": UserApi.addProfilePhoto(data.get('url'), data.get('id'))})
 
 
-# returns the profilephote from a leader account
+# returns the profilephoto from a leader account
 @app.route('/api/getProfilePhoto', methods=['POST'])
 def getProfilePhoto():
     data = request.get_json()
-    return UserApi.getProfilePhoto(data.get('id'))
+    return jsonify({"profilePhoto": UserApi.getProfilePhoto(data.get('id'))})
 
 
 ################################################################
@@ -504,7 +504,6 @@ def getNews():
 def getAllSubs():
     data = request.get_json()
     id = data.get("id")
-    print(id)
     result = eventApi.getAllSubs(id)
     if len(result) > 0:
         return jsonify({"responseCode": 200, "subs": result})
