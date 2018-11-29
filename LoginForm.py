@@ -32,7 +32,7 @@ def logoutUser(form):
     return {"responseCode": 500, "boolean": False}
 
 
-def checkLogin(form):
+def loginCheck(form):
     user = Persister.getPerson(form.get('id'))
     return user.authenticated
 
