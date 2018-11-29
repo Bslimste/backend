@@ -77,10 +77,10 @@ def createEventTrigger():
 @app.route('/api/updateEventTrigger', methods=['GET'])
 def updateEventTrigger():
     data = requests.get("http://gromdroid.nl/bslim/wp-json/wp/v2/events/" + request.args.get("id")).json()
-    print(data)
     address = requests.get(
         "http://gromdroid.nl/bslim/wp-json/wp/v2/event-venues/" + str(data['event-venues'][0])).json()
     soup = BSHTML(data["content"]["rendered"])
+    print(address['name'])
     images = soup.findAll('img')
     img = " "
     for image in images:
@@ -124,7 +124,7 @@ def loginPageHandler():
 # check if user is loggedin using current_user from flask.
 @app.route('/api/loginCheck', methods=['POST'])
 def loginCheck():
-    return jsonify("auth": {LoginForm.loginCheck(request.get_json())})
+    return jsonify({"auth": {LoginForm.loginCheck(request.get_json())}})
 
 
 @app.route('/logout', methods=['POST'])
@@ -390,7 +390,7 @@ def createNewsItemApp():
                "headings": {"en": data.get('title')}}
 
     req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
-    return jsonify({"responseCode": UserApi.createNewsItem(data["title"],
+    return jsonify({"responseCode": UserApi.createNewsItemApp(data["title"],
                                                            data["content"],
                                                            data["img"])})
 

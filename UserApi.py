@@ -91,3 +91,17 @@ def createNewsItem(id, title, content, img):
         created=datetime.datetime.now()
     )
     return Persister.persist_object(item)
+
+def createNewsItemApp(title, content, img):
+    if (title == '' or
+            content == '' or
+            img == ''):
+        return 400 
+    item = Content( 
+        url=img,    
+        title=title, 
+        desc=content,
+        link=None,
+        created=datetime.datetime.now()
+    )
+    return Persister.persist_object(item)
