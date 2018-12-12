@@ -43,10 +43,9 @@ def deleteEventTrigger():
 
 @app.route('/api/createEventTrigger', methods=['GET'])
 def createEventTrigger():
-    data = requests.get("http://gromdroid.nl/bslim/wp-json/wp/v2/events/" + request.args.get("id")).json()
-    print(data)
+    data = requests.get("http://bslim/wp-json/wp/v2/events/" + request.args.get("id")).json()
     address = requests.get(
-        "http://gromdroid.nl/bslim/wp-json/wp/v2/event-venues/" + str(data['event-venues'][0])).json()
+        "http://bslim/wp-json/wp/v2/event-venues/" + str(data['event-venues'][0])).json()
     soup = BSHTML(data["content"]["rendered"])
     images = soup.findAll('img')
     img = " "
@@ -61,9 +60,7 @@ def createEventTrigger():
                "included_segments": ["All"],
                "contents": {"en": "Nieuw evenement van Bslim!"},
                "headings": {"en": data['title']['rendered']}}
-    print("YAY")
     req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
-    print(data["author"])
     return jsonify({"responseCode": eventApi.createEvent(request.args.get("id"),
                                                          data["title"]["rendered"],
                                                          data["start"],
@@ -76,9 +73,9 @@ def createEventTrigger():
 
 @app.route('/api/updateEventTrigger', methods=['GET'])
 def updateEventTrigger():
-    data = requests.get("http://gromdroid.nl/bslim/wp-json/wp/v2/events/" + request.args.get("id")).json()
+    data = requests.get("http://bslim/wp-json/wp/v2/events/" + request.args.get("id")).json()
     address = requests.get(
-        "http://gromdroid.nl/bslim/wp-json/wp/v2/event-venues/" + str(data['event-venues'][0])).json()
+        "http://bslim/wp-json/wp/v2/event-venues/" + str(data['event-venues'][0])).json()
     soup = BSHTML(data["content"]["rendered"])
     print(address['name'])
     images = soup.findAll('img')
@@ -148,7 +145,7 @@ def changeMail():
         message = "Om je e-mail adres te veranderen is er een veiligheids code gegenereerd: " + user.securityCode + ". Vul deze code in de app in en voer u nieuwe e-mail adres in."
 
         # setup the parameters of the message
-        msg['From'] = "bslim@grombouts.nl"
+        msg['From'] = "app@bslim.nl"
         msg['To'] = oldEmail
         msg['Subject'] = "E-mail veranderen"
 
@@ -158,8 +155,8 @@ def changeMail():
         # Send the message via our own SMTP server.
         server = smtplib.SMTP('mail.grombouts.nl', 587)
         server.starttls()
-        server.login('bslim@grombouts.nl', "bslim")
-        server.sendmail('bslim@grombouts.nl', oldEmail, msg.as_string())
+        server.login('app@bslim.nl', "bslim")
+        server.sendmail('app@bslim.nl', oldEmail, msg.as_string())
         server.quit()
         return jsonify({'responseCode': 200, 'msg': 'Security code generated for ' + oldEmail, 'oldEmail': oldEmail})
     return jsonify({'responseCode': 500, 'msg': 'Could not generate security code'})
@@ -181,7 +178,7 @@ def changeUserEmail():
         message = "Uw e-mail adres is succesvol verandert."
 
         # setup the parameters of the message
-        msg['From'] = "bslim@grombouts.nl"
+        msg['From'] = "app@bslim.nl"
         msg['To'] = newEmail
         msg['Subject'] = "E-mail adres verandert"
 
@@ -191,8 +188,8 @@ def changeUserEmail():
         # Send the message via our own SMTP server.
         server = smtplib.SMTP('mail.grombouts.nl', 587)
         server.starttls()
-        server.login('bslim@grombouts.nl', "bslim")
-        server.sendmail('bslim@grombouts.nl', newEmail, msg.as_string())
+        server.login('app@bslim.nl', "bslim")
+        server.sendmail('app@bslim.nls.nl', newEmail, msg.as_string())
         server.quit()
         return jsonify({'responseCode': 200, 'msg': 'Succesfuly changed e-mail address to ' + newEmail})
     return jsonify({'responseCode': 500, 'msg': 'Could not change e-mail address'})
@@ -225,8 +222,8 @@ def resetPassword():
         # Send the message via our own SMTP server.
         server = smtplib.SMTP('mail.grombouts.nl', 587)
         server.starttls()
-        server.login('bslim@grombouts.nl', "bslim")
-        server.sendmail('bslim@grombouts.nl', email, msg.as_string())
+        server.login('app@bslim.nl', "bslim")
+        server.sendmail('app@bslim.nl', email, msg.as_string())
         server.quit()
     return jsonify({"boolean": True, "responseCode": 200})
 
@@ -353,7 +350,7 @@ def searchEvent():
 # starts the proces of creating a news item on the app side and sends a notification to the app
 @app.route('/api/createNewsItem', methods=['GET'])
 def createNewsItem():
-    data = requests.get("http://gromdroid.nl/bslim/wp-json/wp/v2/posts/" + request.args.get("id")).json()
+    data = requests.get("http://bslim/wp-json/wp/v2/posts/" + request.args.get("id")).json()
     soup = BSHTML(data["content"]["rendered"])
     images = soup.findAll('img')
     img = " "
@@ -371,7 +368,7 @@ def createNewsItem():
                "headings": {"en": data["title"]["rendered"]}}
 
     req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
-    return jsonify({"responseCode": UserApi.createNewsItem(request.args.get("id"), data["title"]["rendered"],
+    return jsonify({"responseCode": UserApi.createNewsItem(data["title"]["rendered"],
                                                            data["content"]["rendered"],
                                                            img)})
 
@@ -532,8 +529,8 @@ def sendFeedbackForm():
         message = "onderwerp:" + subject + + "\n" + "probleem:" + problem
 
         # setup the parameters of the message
-        msg['From'] = "bslim@grombouts.nl"
-        msg['To'] = "bslim@grombouts.nl"
+        msg['From'] = "app@bslim.nl"
+        msg['To'] = "app@bslim.nl"
         msg['Subject'] = "Feedback van gebruiker"
 
         # add in the message body
@@ -542,10 +539,9 @@ def sendFeedbackForm():
         # Send the message via our own SMTP server.
         server = smtplib.SMTP('mail.grombouts.nl', 587)
         server.starttls()
-        server.login('bslim@grombouts.nl', "bslim")
-        server.sendmail('bslim@grombouts.nl', 'bslim@grombouts.nl', msg.as_string())
+        server.login('app@bslim.nl', "bslim")
+        server.sendmail('app@bslim.nl', 'info@bslim.nl', msg.as_string())
         server.quit()
-        print("ok")
         return jsonify({'responseCode': 200, 'msg': 'Bedankt voor uw feedack.'})
     else:
         return jsonify({'responseCode': 400, 'msg': "Email is not recognized"})
