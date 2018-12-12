@@ -43,10 +43,9 @@ def deleteEventTrigger():
 
 @app.route('/api/createEventTrigger', methods=['GET'])
 def createEventTrigger():
-    data = requests.get("http://gromdroid.nl/bslim/wp-json/wp/v2/events/" + request.args.get("id")).json()
-    print(data)
+    data = requests.get("http://bslim/wp-json/wp/v2/events/" + request.args.get("id")).json()
     address = requests.get(
-        "http://gromdroid.nl/bslim/wp-json/wp/v2/event-venues/" + str(data['event-venues'][0])).json()
+        "http://bslim/wp-json/wp/v2/event-venues/" + str(data['event-venues'][0])).json()
     soup = BSHTML(data["content"]["rendered"])
     images = soup.findAll('img')
     img = " "
@@ -61,9 +60,7 @@ def createEventTrigger():
                "included_segments": ["All"],
                "contents": {"en": "Nieuw evenement van Bslim!"},
                "headings": {"en": data['title']['rendered']}}
-    print("YAY")
-    # req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
-    print(data["author"])
+    req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
     return jsonify({"responseCode": eventApi.createEvent(request.args.get("id"),
                                                          data["title"]["rendered"],
                                                          data["start"],
@@ -76,10 +73,10 @@ def createEventTrigger():
 
 @app.route('/api/updateEventTrigger', methods=['GET'])
 def updateEventTrigger():
-    data = requests.get("http://gromdroid.nl/bslim/wp-json/wp/v2/events/" + request.args.get("id")).json()
+    data = requests.get("http://bslim/wp-json/wp/v2/events/" + request.args.get("id")).json()
     print(data)
     address = requests.get(
-        "http://gromdroid.nl/bslim/wp-json/wp/v2/event-venues/" + str(data['event-venues'][0])).json()
+        "http://bslim/wp-json/wp/v2/event-venues/" + str(data['event-venues'][0])).json()
     soup = BSHTML(data["content"]["rendered"])
     images = soup.findAll('img')
     img = " "
@@ -94,7 +91,7 @@ def updateEventTrigger():
                "included_segments": ["All"],
                "contents": {"en": "Nieuw evenement van Bslim!"},
                "headings": {"en": data["title"]["rendered"]}}
-    # req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
+    req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
     return jsonify({"responseCode": eventApi.updateEvent(request.args.get("id"),
                                                          data["title"]["rendered"],
                                                          data["start"],
@@ -353,7 +350,7 @@ def searchEvent():
 # starts the proces of creating a news item on the app side and sends a notification to the app
 @app.route('/api/createNewsItem', methods=['GET'])
 def createNewsItem():
-    data = requests.get("http://gromdroid.nl/bslim/wp-json/wp/v2/posts/" + request.args.get("id")).json()
+    data = requests.get("http://bslim/wp-json/wp/v2/posts/" + request.args.get("id")).json()
     soup = BSHTML(data["content"]["rendered"])
     images = soup.findAll('video')
     img = " "
@@ -370,7 +367,7 @@ def createNewsItem():
                "contents": {"en": "Nieuws van bslim"},
                "headings": {"en": data.get('title')}}
 
-    # req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
+    req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
     return jsonify({"responseCode": UserApi.createNewsItem(data["title"]["rendered"],
                                                            data["content"]["rendered"],
                                                            img)})
@@ -389,7 +386,7 @@ def createNewsItemApp():
                "contents": {"en": "Nieuws van bslim"},
                "headings": {"en": data.get('title')}}
 
-    # req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
+    req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
     return jsonify({"responseCode": UserApi.createNewsItem(data["title"],
                                                            data["content"],
                                                            data["img"])})
