@@ -15,9 +15,6 @@ def registerSubmit(form, clearance):
 
     firstName = firstName.strip()
     lastName = lastName.strip()
-    firstName = firstName.replace(" ", "_")
-    lastName = lastName.replace(" ", "")
-    email = email.replace(" ", "")
     firstName = firstName.lower()
     lastName = lastName.lower()
     email = email.lower()

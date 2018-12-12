@@ -74,10 +74,10 @@ def createEventTrigger():
 @app.route('/api/updateEventTrigger', methods=['GET'])
 def updateEventTrigger():
     data = requests.get("http://bslim/wp-json/wp/v2/events/" + request.args.get("id")).json()
-    print(data)
     address = requests.get(
         "http://bslim/wp-json/wp/v2/event-venues/" + str(data['event-venues'][0])).json()
     soup = BSHTML(data["content"]["rendered"])
+    print(address['name'])
     images = soup.findAll('img')
     img = " "
     for image in images:
@@ -121,7 +121,7 @@ def loginPageHandler():
 # check if user is loggedin using current_user from flask.
 @app.route('/api/loginCheck', methods=['POST'])
 def loginCheck():
-    return jsonify("auth": {LoginForm.loginCheck(request.get_json())})
+    return jsonify({"auth": {LoginForm.loginCheck(request.get_json())}})
 
 
 @app.route('/logout', methods=['POST'])
@@ -352,7 +352,7 @@ def searchEvent():
 def createNewsItem():
     data = requests.get("http://bslim/wp-json/wp/v2/posts/" + request.args.get("id")).json()
     soup = BSHTML(data["content"]["rendered"])
-    images = soup.findAll('video')
+    images = soup.findAll('img')
     img = " "
     for image in images:
         img = image['src']
@@ -365,7 +365,7 @@ def createNewsItem():
     payload = {"app_id": appId,
                "included_segments": ["All"],
                "contents": {"en": "Nieuws van bslim"},
-               "headings": {"en": data.get('title')}}
+               "headings": {"en": data["title"]["rendered"]}}
 
     req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
     return jsonify({"responseCode": UserApi.createNewsItem(data["title"]["rendered"],
@@ -387,10 +387,15 @@ def createNewsItemApp():
                "headings": {"en": data.get('title')}}
 
     req = requests.post("https://onesignal.com/api/v1/notifications", headers=header, data=json.dumps(payload))
-    return jsonify({"responseCode": UserApi.createNewsItem(data["title"],
+    return jsonify({"responseCode": UserApi.createNewsItemApp(data["title"],
                                                            data["content"],
                                                            data["img"])})
 
+
+@app.route('/api/deleteNewsTrigger', methods=['GET'])
+def deleteNewsTrigger():
+    id = request.args.get("id")
+    return jsonify({"responseCode": UserApi.deleteNewsItem(id)})
 
 # searches through all the news items in the db on title and created date
 @app.route('/api/searchNews', methods=['POST'])

@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 def checkSpecialChars(items):
     for item in items:
-        if set('[~!#$%^&*-+":;\']+$').intersection(item):
+        if set('[~!#$%^&*+":;\']+$').intersection(item):
             return True
     return False
 

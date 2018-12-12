@@ -12,7 +12,7 @@ import random, string
 import hashlib
 import datetime
 
-conn = sqla.create_engine('mysql+pymysql://root:@localhost/bslim?charset=utf8')
+conn = sqla.create_engine('mysql+pymysql://bslim:bslim_hanze!@localhost/bslim?charset=utf8')
 
 Session = scoped_session(sessionmaker(bind=conn))
 
@@ -148,6 +148,18 @@ class Persister():
         db.close()
         return 200
 
+    def remove_news(id):
+        db = Session()
+        try:
+            content = db.query(Content).filter(Content.id == id).first()
+            db.delete(content)
+            db.commit()
+        except:
+            db.close()
+            return 400
+        db.close()
+        return 200
+    
     def persist_object(obj):
         db = Session()
         try:
@@ -181,9 +193,16 @@ class Persister():
                 db.add(obj)
                 db.commit()
             else:
+                print(name)
+                print(begin)
+                print(end)
+                print(description)
+                print(leader)
+                print(img)
+                print(qr_code)
                 event.name = name
                 event.begin = begin
-                event.end = begin
+                event.end = end
                 event.desc = description
                 event.leader = leader
                 event.cancel = 0
