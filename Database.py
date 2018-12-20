@@ -12,7 +12,12 @@ import random, string
 import hashlib
 import datetime
 
-conn = sqla.create_engine('mysql+pymysql://bslim:bslim_hanze!@localhost/bslim?charset=utf8')
+username = "bslim"
+pw = ""
+dbhost = "localhost"
+dbName = "bslim"
+
+conn = sqla.create_engine('mysql+pymysql://'+ username + ':' + pw + '@' + dbhost + '/' + dbName + '?charset=utf8')
 
 Session = scoped_session(sessionmaker(bind=conn))
 
