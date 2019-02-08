@@ -12,7 +12,7 @@ import random, string
 import hashlib
 import datetime
 
-conn = sqla.create_engine('mysql+pymysql://bslim:bslim_hanze!@localhost/bslim?charset=utf8')
+conn = sqla.create_engine('mysql+pymysql://ina:ina-app!@localhost/bslim?charset=utf8')
 
 Session = scoped_session(sessionmaker(bind=conn))
 
@@ -159,13 +159,14 @@ class Persister():
             return 400
         db.close()
         return 200
-    
+
     def persist_object(obj):
         db = Session()
         try:
             db.add(obj)
             db.commit()
-        except:
+        except Exception as e:
+            print(e)
             db.close()
             return 400
         db.close()
