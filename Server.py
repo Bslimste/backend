@@ -51,8 +51,8 @@ def createEventTrigger():
     img = " "
     for image in images:
         img = image['src']
-    apiKey = "YTFkZGY1OGUtNGM5NC00ODdmLWJmN2QtNjMxYzNjMzk0MWJl"
-    appId = "893db161-0c60-438b-af84-8520b89c6d93"
+    apiKey = "MDQ4ZjNmYmMtYTMxMy00MzMzLWI3NWUtNTI0NWQ1MDdlYmZk"
+    appId = "88a41eb2-1403-4aa9-8989-c0b430286788"
     header = {"Content-Type": "application/json; charset=utf-8",
               "Authorization": "Basic " + apiKey}
 
@@ -81,8 +81,8 @@ def updateEventTrigger():
     img = " "
     for image in images:
         img = image['src']
-    apiKey = "YTFkZGY1OGUtNGM5NC00ODdmLWJmN2QtNjMxYzNjMzk0MWJl"
-    appId = "893db161-0c60-438b-af84-8520b89c6d93"
+    apiKey = "MDQ4ZjNmYmMtYTMxMy00MzMzLWI3NWUtNTI0NWQ1MDdlYmZk"
+    appId = "88a41eb2-1403-4aa9-8989-c0b430286788"
     header = {"Content-Type": "application/json; charset=utf-8",
               "Authorization": "Basic " + apiKey}
 
@@ -357,8 +357,8 @@ def createNewsItem():
     for image in images:
         img = image['src']
 
-    apiKey = "YTFkZGY1OGUtNGM5NC00ODdmLWJmN2QtNjMxYzNjMzk0MWJl"
-    appId = "893db161-0c60-438b-af84-8520b89c6d93"
+    apiKey = "MDQ4ZjNmYmMtYTMxMy00MzMzLWI3NWUtNTI0NWQ1MDdlYmZk"
+    appId = "88a41eb2-1403-4aa9-8989-c0b430286788"
     header = {"Content-Type": "application/json; charset=utf-8",
               "Authorization": "Basic " + apiKey}
 
@@ -376,8 +376,8 @@ def createNewsItem():
 def createNewsItemApp():
     print("yes app")
     data = request.get_json()
-    apiKey = "YTFkZGY1OGUtNGM5NC00ODdmLWJmN2QtNjMxYzNjMzk0MWJl"
-    appId = "893db161-0c60-438b-af84-8520b89c6d93"
+    apiKey = "MDQ4ZjNmYmMtYTMxMy00MzMzLWI3NWUtNTI0NWQ1MDdlYmZk"
+    appId = "88a41eb2-1403-4aa9-8989-c0b430286788"
     header = {"Content-Type": "application/json; charset=utf-8",
               "Authorization": "Basic " + apiKey}
 
@@ -547,4 +547,4 @@ def sendFeedbackForm():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=False)
