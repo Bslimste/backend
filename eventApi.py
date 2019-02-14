@@ -6,17 +6,17 @@ import datetime
 from operator import itemgetter
 
 
-months = {'Jan': 'Jan', 
-		  'Feb': 'Feb', 
-		  'Mar': 'Mrt', 
-		  'Apr': 'Apr', 
-		  'May': 'Mei', 
-		  'Jun': 'Jun', 
-		  'Jul': 'Jul', 
-		  'Aug': 'Aug', 
-		  'Sep': 'Sep', 
-		  'Oct': 'Okt', 
-		  'Nov': 'Nov', 
+months = {'Jan': 'Jan',
+		  'Feb': 'Feb',
+		  'Mar': 'Mrt',
+		  'Apr': 'Apr',
+		  'May': 'Mei',
+		  'Jun': 'Jun',
+		  'Jul': 'Jul',
+		  'Aug': 'Aug',
+		  'Sep': 'Sep',
+		  'Oct': 'Okt',
+		  'Nov': 'Nov',
 		  'Dec': 'Dec'};
 
 # returns 200 to indicate successful updating of the particepant info
